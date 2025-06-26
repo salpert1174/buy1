@@ -20,7 +20,7 @@
     <label for="bidAmount">Bid Amount ($):</label>
     <input type="number" id="bidAmount" value="31209.85" step="0.01" />
 
-    <label for="multiplier">Contract Multiplier (x):</label>
+    <label for="multiplier">Leverage Multiplier (e.g., 10x):</label>
     <input type="number" id="multiplier" value="10" />
 
     <label for="interestRate">Loan Interest Rate (% per trade):</label>
@@ -51,7 +51,7 @@
 
       const contract = bid * multiplier;
       const loan = contract - bid;
-      const totalProfit = startProfit + profitPerTrade * (trades - 1);
+      const totalProfit = startProfit + profitPerTrade * trades;
       const totalInterest = loan * interestRate * trades;
       const netProfit = totalProfit - totalInterest;
       const roi = (netProfit / bid) * 100;
