@@ -51,7 +51,12 @@
 
       const contract = bid * multiplier;
       const loan = contract - bid;
-      const totalProfit = startProfit + profitPerTrade * trades;
+
+      let totalProfit = 0;
+      for (let i = 0; i < trades; i++) {
+        totalProfit += startProfit + (profitPerTrade * i);
+      }
+
       const totalInterest = loan * interestRate * trades;
       const netProfit = totalProfit - totalInterest;
       const roi = (netProfit / bid) * 100;
