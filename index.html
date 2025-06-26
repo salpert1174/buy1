@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leveraged Trading Profit Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    .container { max-width: 800px; background: #fff; padding: 20px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label { display: block; margin: 10px 0 5px; font-weight: bold; }
+    input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    h2 { border-bottom: 2px solid #333; padding-bottom: 5px; }
+    .result { background: #e9ffe9; padding: 10px; margin-top: 10px; border: 1px solid #b2d8b2; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Leveraged Trading Profit Calculator</h2>
+
+    <label for="bidAmount">Bid Amount ($):</label>
+    <input type="number" id="bidAmount" value="31209.85" step="0.01" />
+
+    <label for="multiplier">Contract Multiplier (x):</label>
+    <input type="number" id="multiplier" value="10" />
+
+    <label for="interestRate">Loan Interest Rate (% per trade):</label>
+    <input type="number" id="interestRate" value="0.93" step="0.01" />
+
+    <label for="numTrades">Number of Trades:</label>
+    <input type="number" id="numTrades" value="56" />
+
+    <label for="startingProfit">Starting Profit ($):</label>
+    <input type="number" id="startingProfit" value="3433.26" step="0.01" />
+
+    <label for="profitIncrease">Profit Increase Per Trade ($):</label>
+    <input type="number" id="profitIncrease" value="34" step="0.01" />
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="results"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      const bid = parseFloat(document.getElementById('bidAmount').value);
+      const multiplier = parseFloat(document.getElementById('multiplier').value);
+      const interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
+      const trades = parseInt(document.getElementById('numTrades').value);
+      const startProfit = parseFloat(document.getElementById('startingProfit').value);
+      const profitPerTrade = parseFloat(document.getElementById('profitIncrease').value);
+
+      const contract = bid * multiplier;
+      const loan = contract - bid;
+      const totalProfit = startProfit + profitPerTrade * (trades - 1);
+      const totalInterest = loan * interestRate * trades;
+      const netProfit = totalProfit - totalInterest;
+      const roi = (netProfit / bid) * 100;
+
+      document.getElementById('results').innerHTML = `
+        <strong>Contract Amount:</strong> $${contract.toFixed(2)}<br>
+        <strong>Loan Amount:</strong> $${loan.toFixed(2)}<br>
+        <strong>Total Gross Profit:</strong> $${totalProfit.toFixed(2)}<br>
+        <strong>Total Loan Interest:</strong> $${totalInterest.toFixed(2)}<br>
+        <strong>Net Profit After Interest:</strong> $${netProfit.toFixed(2)}<br>
+        <strong>ROI on Bid Amount:</strong> ${roi.toFixed(2)}%
+      `;
+    }
+  </script>
+</body>
+</html>
